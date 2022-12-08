@@ -24,6 +24,13 @@ class Board
             "D3" => Cell.new("D3"),
             "D4" => Cell.new("D4")
             }
+
+        end
+
+        def valid_coordinate?(a_cell)
+            cells.include?(a_cell)
             
-    end
+        end
+    
+
 end
