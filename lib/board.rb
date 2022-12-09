@@ -7,7 +7,7 @@ class Board
     end
 
     def cells
-        cells ={
+        @cells ||= {
             "A1" => Cell.new("A1"),
             "A2" => Cell.new("A2"),
             "A3" => Cell.new("A3"),
@@ -45,5 +45,13 @@ class Board
         return true if letters.each_cons(2).all? {|a, b| a + 1 == b} && numbers.each_cons(2).all? {|num1, num2| num1 == num2}
 
         false
+    end
+
+    def place(ship_type, array_coor)
+        # require 'pry'; binding.pry
+        array_coor.each do |cell|
+            @cells[cell].place_ship(ship_type)
+            # require 'pry'; binding.pry
+        end
     end
 end
