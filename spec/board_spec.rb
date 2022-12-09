@@ -34,12 +34,19 @@ RSpec.describe do
     end
 
     it 'validates consecutive placement' do
-
         board= Board.new
         cruiser = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2) 
 
         expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to eq(false)
+    end
 
+    xit 'validates placement if diagonal' do
+        board= Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2) 
+
+        expect(board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to eq(false)
+        expect(board.valid_placement?(submarine, ["C2", "D3"])).to eq(false)
     end
 end

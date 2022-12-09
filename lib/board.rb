@@ -1,5 +1,6 @@
 class Board
-    attr_reader :cells
+    attr_reader :cells,
+                :consecutive
 
     def initialize
         @cells = cells
@@ -24,19 +25,73 @@ class Board
             "D3" => Cell.new("D3"),
             "D4" => Cell.new("D4")
             }
-
-        end
-
-        def valid_coordinate?(a_cell)
-            cells.include?(a_cell)     
-        end
-
-        def valid_placement?(ship, coordinates)
-            coordinates.length == ship.length
-                
-          
+        
     end
 
+    def valid_coordinate?(a_cell)
+        cells.include?(a_cell)     
+    end
 
+    def valid_placement?(ship_type, array_coor)
+
+        letters = array_coor.map { |coordinate| coordinate.split(' ').first.ord}
+        numbers = array_coor.map { |coordinate| coordinate.split(//).last.to_i}
+        
+        if ship_type.name == "Cruiser"
+            if array_coor.length == 3
+                if letters.each_cons(3).all? {|a, b, c| a == b && b == c}
+                    if numbers.each_cons(3).all? {|num1, num2, num3| num1 + 1 == num2 && num2 + 1 == num3}
+                        true
+                    else
+                        false
+                    end
+                elsif letters.each_cons(3).all? {|a, b, c| a + 1 == b && b + 1 == c}
+                    if numbers.each_cons(3).all? {|num1, num2, num3| num1 == num2 && num2 == num3}
+                        true
+                    else
+                        false
+                    end
+                else
+                    false
+                end
+        else
+            false
+        end
+        elsif ship_type.name == "Submarine"
+            if array_coor.length == 2
+                if letters.each_cons(2).all? {|a, b| a == b}
+                    if numbers.each_cons(2).all? {|num1, num2| num1 +1 == num2}
+                        true
+                    else
+                        false
+                    end
+                elsif letters.each_cons(2).all? {|a, b| a + 1 == b}
+                    if numbers.each_cons(2).all? {|num1, num2| num1 == num2}
+                        true
+                    else
+                        false
+                    end
+                end
+            else
+                false
+            end
+        end
+    end
+
+    # def consecutive?(coordinates)
+    #     split_coordinates = []
+    
+    #     coordinates.each do |one_cell|
+    #        split_coordinates << one_cell.split(//).flatten!
+    #     end
+
+    #     if split_coordinates[3].to_i - split_coordinates[1].to_i == 1 || split_coordinates[2].ord - split_coordinates[0].ord == 1
+    #         true
+    #     else
+    #         false
+    #     end
+
+    # end
+ 
 
 end
