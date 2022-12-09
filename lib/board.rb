@@ -33,7 +33,7 @@ class Board
     end
 
     def valid_placement?(ship_type, array_coor)
-        ship_type.length == array_coor.length && valid_coordinates?(array_coor)
+        ship_type.length == array_coor.length && valid_coordinates?(array_coor) && empty_cells?(array_coor) == true
     end
     
     def valid_coordinates?(array_coor)
@@ -48,10 +48,16 @@ class Board
     end
 
     def place(ship_type, array_coor)
-        # require 'pry'; binding.pry
-        array_coor.each do |cell|
+            if valid_placement?(ship_type, array_coor)
+            array_coor.each do |cell|
             @cells[cell].place_ship(ship_type)
-            # require 'pry'; binding.pry
+            end
+        end
+    end
+
+    def empty_cells?(array_coor)
+            array_coor.all? do |cell|
+            @cells[cell].empty?
         end
     end
 end
