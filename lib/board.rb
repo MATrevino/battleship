@@ -7,7 +7,7 @@ class Board
     end
 
     def cells
-        cells ={
+        @cells ||= {
             "A1" => Cell.new("A1"),
             "A2" => Cell.new("A2"),
             "A3" => Cell.new("A3"),
@@ -33,7 +33,7 @@ class Board
     end
 
     def valid_placement?(ship_type, array_coor)
-        ship_type.length == array_coor.length && valid_coordinates?(array_coor)
+        ship_type.length == array_coor.length && valid_coordinates?(array_coor) && empty_cells?(array_coor) == true
     end
     
     def valid_coordinates?(array_coor)
@@ -45,5 +45,19 @@ class Board
         return true if letters.each_cons(2).all? {|a, b| a + 1 == b} && numbers.each_cons(2).all? {|num1, num2| num1 == num2}
 
         false
+    end
+
+    def place(ship_type, array_coor)
+            if valid_placement?(ship_type, array_coor)
+            array_coor.each do |cell|
+            @cells[cell].place_ship(ship_type)
+            end
+        end
+    end
+
+    def empty_cells?(array_coor)
+            array_coor.all? do |cell|
+            @cells[cell].empty?
+        end
     end
 end
