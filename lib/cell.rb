@@ -35,7 +35,6 @@ class Cell
     end
 
     def render(show = false)
-        # require 'pry';binding.pry
         if show == true && @ship != nil
             "S"
         elsif @fired_upon == true && @ship == nil
