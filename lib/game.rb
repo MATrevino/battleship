@@ -6,11 +6,15 @@ class Game
 
         attr_reader :board_comp, :board_player
 
-    def initialize(board_comp, board_player)
-        @board_comp = board_comp
-        @board_player = board_player
+    def initialize
+        @board_comp = Board.new
+        @board_player = Board.new
+        @player_cruiser = Ship.new("Cruiser", 3)
+        @player_submarine = Ship.new("Submarine", 2)
 
-        
+        @comp_cruiser = Ship.new("Cruiser", 3)
+        @comp_submarine = Ship.new("Submarine", 2)
+
     end
     
 
@@ -20,7 +24,7 @@ class Game
         
         user_input = gets.chomp.upcase
         if user_input == 'P'
-            game_start
+            comp_place_cruiser      
         elsif user_input == 'Q'
             game_end            
         else
@@ -28,13 +32,32 @@ class Game
         end    
     end
 
+    
+    def comp_place_cruiser
+        array_coogit r = @board_comp.cells.keys.sample(3)
+        @board_comp.place(@comp_cruiser.name, array_coor)
+
+        if @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == false
+            comp_place_cruiser
+        elsif @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == true
+            @board_comp.place_ship
+        end
+        comp_place_submarine
+     end
+
+    def comp_place_submarine
+        array_coor = @board_comp.cells.keys.sample(2)
+        @board_comp.place(@comp_submarine.name, array_coor)
+
+        if @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == false
+            comp_place_submarine
+        elsif @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == true
+            @board_comp.place_ship
+        end
+        game_start
+    end
+
     def game_start
-
-        @cells.keys.sample
-
-        place(ship_type, array_coor)
-
-
         
             puts 'I have laid out my ships on the grid.'
             puts 'You now need to lay out your two ships.'
