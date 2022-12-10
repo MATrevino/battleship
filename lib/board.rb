@@ -25,7 +25,7 @@ class Board
             "D3" => Cell.new("D3"),
             "D4" => Cell.new("D4")
             }
-        
+    
     end
 
     def valid_coordinate?(a_cell)
@@ -51,10 +51,11 @@ class Board
             if valid_placement?(ship_type, array_coor)
             array_coor.each do |cell|
             @cells[cell].place_ship(ship_type)
+            require 'pry'; binding.pry
             end
         end
     end
-
+   
     def empty_cells?(array_coor)
             array_coor.all? do |cell|
             @cells[cell].empty?
