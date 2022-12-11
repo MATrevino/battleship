@@ -1,6 +1,8 @@
 require './lib/board'
 require './lib/game'
+require './lib/cell'
+require './lib/ship'
 
 
-game = Game.new(board_comp, board_player)
+game = Game.new
 game.start
