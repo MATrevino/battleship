@@ -51,7 +51,7 @@ class Board
             if valid_placement?(ship_type, array_coor)
             array_coor.each do |cell|
             @cells[cell].place_ship(ship_type)
-            require 'pry'; binding.pry
+            # require 'pry'; binding.pry
             end
         end
     end
