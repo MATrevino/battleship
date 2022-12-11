@@ -58,14 +58,31 @@ class Game
             puts    'C . . . .'
             puts    'D . . . .'
             puts  'Enter the squares for the Cruiser (3 spaces):'
+            puts '(be sure to add a comma between each coordinate square)'
+
+            user_input = gets.chomp.upcase.split(", ")
+            if @board_player.valid_placement?(@player_cruiser, user_input) == true
+                @board_player.place(@player_cruiser, user_input)
+            else @board_player.valid_placement?(@player_cruiser, user_input) == false
+                puts 'Those are invalid coordinates. Please try again:'
+                user_input = gets.chomp.split(", ")
+            end
+
+            puts "Enter the squares for the Submarine (2 spaces):"
+            user_input = gets.chomp.upcase.split(", ")
+            if @board_player.valid_placement?(@player_submarine, user_input) == true
+                @board_player.place(@player_submarine, user_input)
+               puts "you did it"
+            else @board_player.valid_placement?(@player_submarine, user_input) == false
+                puts 'Those are invalid coordinates. Please try again:'
+                user_input = gets.chomp.split(", ")
+            end
     end
 end
 
 
-        #1) computer will place their ship using random placement using valid placement rules.   
-            #potentially using the valid_placement method and place_ship method
-        #2) message sent to use that computer's ships have been placed. 
-             # message second line User needs to choose coordinates to place their ship
+      
+    
         #3) User input needed use .gets method.  
             #conditionals needed to  possibly if its good will print message saying its good.  using valid_placement & place_ship methods
             #   if the coordinates aren't valid  using conditionals a message will print saying not valid and to try again
