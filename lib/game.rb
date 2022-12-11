@@ -16,7 +16,6 @@ class Game
         @comp_submarine = Ship.new("Submarine", 2)
 
     end
-    
 
     def start
         puts 'Welcome to BATTLESHIP'
@@ -24,7 +23,8 @@ class Game
         
         user_input = gets.chomp.upcase
         if user_input == 'P'
-            comp_place_cruiser      
+            place_comp_ships
+            game_start
         elsif user_input == 'Q'
                #exits game         
         else
@@ -32,31 +32,23 @@ class Game
         end    
     end
 
-    
-    def comp_place_cruiser
-        array_coor = @board_comp.cells.keys.sample(3)
-        
-        if @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == false
-            comp_place_cruiser
-        elsif @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == true
-            @board_comp.place(@comp_cruiser.name, array_coor)
+    def valid_comp_coordinates(ship)
+        coordinates = []
+        until @board_comp.valid_placement?(ship, coordinates)
+            coordinates = @board_comp.cells.keys.sample(ship.length)
         end
-        comp_place_submarine
-     end
+        coordinates
+    end
 
-    def comp_place_submarine
-        array_coor = @board_comp.cells.keys.sample(2)
-        
-        if @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == false
-            comp_place_submarine
-        elsif @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == true
-            @board_comp.place(@comp_submarine.name, array_coor)
+    def place_comp_ships
+        ships = [@comp_cruiser, @comp_submarine]
+        ships.each do |ship|
+            coordinates = valid_comp_coordinates(ship)
+            @board_comp.place(ship, coordinates)
         end
-        game_start
     end
 
     def game_start
-        
             puts 'I have laid out my ships on the grid.'
             puts 'You now need to lay out your two ships.'
             puts 'The Cruiser is three units long and the Submarine is two units long.'
@@ -66,13 +58,9 @@ class Game
             puts    'C . . . .'
             puts    'D . . . .'
             puts  'Enter the squares for the Cruiser (3 spaces):'
+    end
+end
 
-        end
-
-
-
-            
-    
 
         #1) computer will place their ship using random placement using valid placement rules.   
             #potentially using the valid_placement method and place_ship method
@@ -98,8 +86,3 @@ class Game
 
         #5)When the user enters a valid sequence of coordinates the ship will be placed on the board.  
         #The new board will show where the ship is placed, to the user.
-        
-
-
-    
-end
