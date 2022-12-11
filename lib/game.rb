@@ -26,7 +26,7 @@ class Game
         if user_input == 'P'
             comp_place_cruiser      
         elsif user_input == 'Q'
-            game_end            
+               #exits game         
         else
             start
         end    
@@ -34,25 +34,23 @@ class Game
 
     
     def comp_place_cruiser
-        array_coogit r = @board_comp.cells.keys.sample(3)
-        @board_comp.place(@comp_cruiser.name, array_coor)
-
+        array_coor = @board_comp.cells.keys.sample(3)
+        
         if @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == false
             comp_place_cruiser
         elsif @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == true
-            @board_comp.place_ship
+            @board_comp.place(@comp_cruiser.name, array_coor)
         end
         comp_place_submarine
      end
 
     def comp_place_submarine
         array_coor = @board_comp.cells.keys.sample(2)
-        @board_comp.place(@comp_submarine.name, array_coor)
-
+        
         if @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == false
             comp_place_submarine
         elsif @board_comp.valid_placement?(@comp_cruiser.name, array_coor) == true
-            @board_comp.place_ship
+            @board_comp.place(@comp_submarine.name, array_coor)
         end
         game_start
     end
