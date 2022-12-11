@@ -50,6 +50,7 @@ RSpec.describe do
 
         expect(board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to eq(false)
         expect(board.valid_placement?(submarine, ["C2", "D3"])).to eq(false)
+        # expect(board.valid_placement?(ship, [“E1”, “E2”, “E3”]).to eq(false)
     end
 
     it 'will place the ships' do
