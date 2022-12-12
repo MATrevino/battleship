@@ -65,41 +65,38 @@ class Game
                 @board_player.place(@player_cruiser, user_input)
             else @board_player.valid_placement?(@player_cruiser, user_input) == false
                 puts 'Those are invalid coordinates. Please try again:'
-                user_input = gets.chomp.split(", ")
+                user_input = gets.chomp.upcase.split(", ")
             end
 
             puts "Enter the squares for the Submarine (2 spaces):"
             user_input = gets.chomp.upcase.split(", ")
             if @board_player.valid_placement?(@player_submarine, user_input) == true
                 @board_player.place(@player_submarine, user_input)
-               puts "you did it"
+               puts board_player.render(true)
             else @board_player.valid_placement?(@player_submarine, user_input) == false
                 puts 'Those are invalid coordinates. Please try again:'
-                user_input = gets.chomp.split(", ")
+                user_input = gets.chomp.upcase.split(", ")
             end
+                puts "GET READY TO PLAAAAAAY!!!!"         
+                turn
     end
+
+    def turn
+        puts '=============COMPUTER BOARD============='
+        puts @board_comp.render
+        puts '=============PLAYER BOARD============='
+        puts @board_player.render(true)
+        puts "Enter coodinates for your shot"
+        
+    end
+
+
 end
 
 
-      
-    
-        #3) User input needed use .gets method.  
-            #conditionals needed to  possibly if its good will print message saying its good.  using valid_placement & place_ship methods
-            #   if the coordinates aren't valid  using conditionals a message will print saying not valid and to try again
-
-
-        #4) Next, the user places their ships. They should receive a short explanation of how to place along with a visual representation of their board (which should be empty).
-
-# I have laid out my ships on the grid.
-# You now need to lay out your two ships.
-# The Cruiser is three units long and the Submarine is two units long.
-#   1 2 3 4
-# A . . . .
-# B . . . .
-# C . . . .
-# D . . . .
-# Enter the squares for the Cruiser (3 spaces):
-# >
-
-        #5)When the user enters a valid sequence of coordinates the ship will be placed on the board.  
+        #1)Need to display both boards using render method.  Will need a message saying to enter coordinates for shot.  Using gets method.  
+        #2 User inputs coordinates and the computer chooses coordinates
+        #3) At the end of the turn a written message will appear to report results
+        
+        #When the user enters a valid sequence of coordinates the ship will be placed on the board.  
         #The new board will show where the ship is placed, to the user.
