@@ -11,10 +11,8 @@ class Game
         @board_player = Board.new
         @player_cruiser = Ship.new("Cruiser", 3)
         @player_submarine = Ship.new("Submarine", 2)
-
         @comp_cruiser = Ship.new("Cruiser", 3)
         @comp_submarine = Ship.new("Submarine", 2)
-
     end
 
     def start
@@ -88,13 +86,12 @@ class Game
         puts @board_player.render(true)
         puts "Enter coordinate for your shot"
         
-        user_shot = gets.chomp.upcase
-        if @board_comp.valid_coordinate?(user_shot) == true
-            @board_comp.cells[user_shot].fire_upon
-            puts 'Shot fired'
+        @user_shot = gets.chomp.upcase
+        if @board_comp.valid_coordinate?(@user_shot) == true
+           @board_comp.cells[@user_shot].fire_upon
         else
             puts 'Please enter a valid coordinate:'
-            user_shot = gets.chomp.upcase
+            @user_shot = gets.chomp.upcase
         end
         comp_fire
         results
@@ -102,17 +99,19 @@ class Game
 
 
     def comp_fire
-        coord_shot = @board_player.cells.keys.sample
-        until @board_player.cells[coord_shot].fired_upon? == false
-            coord_shot = @board_player.cells.keys.sample
+        @coord_shot = @board_player.cells.keys.sample
+        until @board_player.cells[@coord_shot].fired_upon? == false
+            @coord_shot = @board_player.cells.keys.sample
         end
-        @board_player.cells[coord_shot].fire_upon
-        coord_shot
+        @board_player.cells[@coord_shot].fire_upon
+        @coord_shot
     end
 
     def results
+        # require 'pry';binding.pry
         
-        puts "Your shot on #{user_shot} was a miss."
+        puts "Your shot on #{@user_shot} was a miss."
+        puts "Your shot on #{@coord_shot} was a miss."
 
     end
 end
