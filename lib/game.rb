@@ -86,9 +86,13 @@ class Game
         puts @board_comp.render
         puts '=============PLAYER BOARD============='
         puts @board_player.render(true)
-        puts "Enter coodinates for your shot"
+        puts "Enter coordinates for your shot"
+        
+        user_input = gets.chomp.upcase
+
         
     end
+
 
 
 end

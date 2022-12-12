@@ -1,6 +1,5 @@
 class Board
-    attr_reader :cells,
-                :consecutive
+    attr_reader :consecutive
 
     def initialize
         @cells = cells
