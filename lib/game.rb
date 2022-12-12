@@ -86,15 +86,35 @@ class Game
         puts @board_comp.render
         puts '=============PLAYER BOARD============='
         puts @board_player.render(true)
-        puts "Enter coordinates for your shot"
+        puts "Enter coordinate for your shot"
         
-        user_input = gets.chomp.upcase
-
-        
+        user_shot = gets.chomp.upcase
+        if @board_comp.valid_coordinate?(user_shot) == true
+            @board_comp.cells[user_shot].fire_upon
+            puts 'Shot fired'
+        else
+            puts 'Please enter a valid coordinate:'
+            user_shot = gets.chomp.upcase
+        end
+        comp_fire
+        results
     end
 
 
+    def comp_fire
+        coord_shot = @board_player.cells.keys.sample
+        until @board_player.cells[coord_shot].fired_upon? == false
+            coord_shot = @board_player.cells.keys.sample
+        end
+        @board_player.cells[coord_shot].fire_upon
+        coord_shot
+    end
 
+    def results
+        
+        puts "Your shot on #{user_shot} was a miss."
+
+    end
 end
 
 
