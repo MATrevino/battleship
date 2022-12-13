@@ -50,12 +50,12 @@ class Game
             puts 'I have laid out my ships on the grid.'
             puts 'You now need to lay out your two ships.'
             puts 'The Cruiser is three units long and the Submarine is two units long.'
-            puts    '  1 2 3 4'
-            puts    'A . . . .'
-            puts    'B . . . .'
-            puts    'C . . . .'
-            puts    'D . . . .'
-            puts  'Enter the squares for the Cruiser (3 spaces):'
+            puts '  1 2 3 4'
+            puts 'A . . . .'
+            puts 'B . . . .'
+            puts 'C . . . .'
+            puts 'D . . . .'
+            puts 'Enter the squares for the Cruiser (3 spaces):'
             puts '(be sure to add a comma between each coordinate square)'
 
             user_input = gets.chomp.upcase.split(", ")
@@ -78,23 +78,37 @@ class Game
                 puts "GET READY TO PLAAAAAAY!!!!"         
                 turn
     end
+            
 
     def turn
+        until @player_cruiser.sunk? && @player_submarine.sunk? || @comp_cruiser.sunk? && @comp_submarine.sunk?
+            puts '=============COMPUTER BOARD============='
+            puts @board_comp.render
+            puts '=============PLAYER BOARD============='
+            puts @board_player.render(true)
+            puts "Enter coordinate for your shot"
+            
+            @user_shot = gets.chomp.upcase
+            if @board_comp.valid_coordinate?(@user_shot) == true
+            @board_comp.cells[@user_shot].fire_upon
+            else
+                puts 'Please enter a valid coordinate:'
+                @user_shot = gets.chomp.upcase
+            end
+            comp_fire
+            results_comp(@coord_shot)
+        end
         puts '=============COMPUTER BOARD============='
         puts @board_comp.render
         puts '=============PLAYER BOARD============='
         puts @board_player.render(true)
-        puts "Enter coordinate for your shot"
-        
-        @user_shot = gets.chomp.upcase
-        if @board_comp.valid_coordinate?(@user_shot) == true
-           @board_comp.cells[@user_shot].fire_upon
-        else
-            puts 'Please enter a valid coordinate:'
-            @user_shot = gets.chomp.upcase
+        if @player_cruiser.sunk? && @player_submarine.sunk?
+            puts "I won!"   
+        else @comp_cruiser.sunk? && @comp_submarine.sunk?
+            puts "You won. You beat the computer. Aren't you clever?"
         end
-        comp_fire
-        results
+        puts "++++++++++++++++++++++++++++++++++++++++++++++"
+        start
     end
 
 
@@ -107,19 +121,27 @@ class Game
         @coord_shot
     end
 
-    def results
-        # require 'pry';binding.pry
-        
-        puts "Your shot on #{@user_shot} was a miss."
-        puts "Your shot on #{@coord_shot} was a miss."
-
+    def results_player(user_shot)
+        if @board_comp.cells[@user_shot].render == "M"
+            puts "Your shot on #{@user_shot} was a miss."
+        elsif @board_comp.cells[@user_shot].render == "H"
+            puts "Your shot on #{@user_shot} was a hit."
+        else @board_comp.cells[@user_shot].render == "X"
+            puts "Your shot on #{@user_shot} sunk my ship!"
+        end
+        turn       
     end
+
+
+    def results_comp(coord_shot)
+        if @board_player.cells[@coord_shot].render == "M"
+            puts "My shot on #{@coord_shot} was a miss."
+        elsif @board_player.cells[@coord_shot].render == "H"
+            puts "My shot on #{@coord_shot} was a hit."
+        else @board_player.cells[@coord_shot].render == "X"
+            puts "My shot on #{@coord_shot} sunk your ship!"
+        end
+        results_player(@user_shot)
+    end
+    
 end
-
-
-        #1)Need to display both boards using render method.  Will need a message saying to enter coordinates for shot.  Using gets method.  
-        #2 User inputs coordinates and the computer chooses coordinates
-        #3) At the end of the turn a written message will appear to report results
-        
-        #When the user enters a valid sequence of coordinates the ship will be placed on the board.  
-        #The new board will show where the ship is placed, to the user.
