@@ -56,7 +56,7 @@ class Game
         puts 'C . . . .'
         puts 'D . . . .'
         puts 'Enter the squares for the Cruiser (3 spaces):'
-        puts '(be sure to add a comma between each coordinate square)'
+        puts '(be sure to add a comma between each coordinate)'
 
         player_place_cruiser
     end
@@ -75,6 +75,7 @@ class Game
 
     def player_place_submarine
         puts "Enter the squares for the Submarine (2 spaces):"
+        puts '(be sure to add a comma between each coordinate)'
         user_input = gets.chomp.upcase.split(", ")
         if @board_player.valid_placement?(@player_submarine, user_input) == true
             @board_player.place(@player_submarine, user_input)
@@ -103,10 +104,11 @@ class Game
         if @board_comp.valid_coordinate?(@user_shot) == true && 
             @board_comp.cells[@user_shot].fired_upon? == false
             @board_comp.cells[@user_shot].fire_upon
-        elsif @board_comp.cells[@user_shot].fired_upon? == true
+        elsif @board_comp.valid_coordinate?(@user_shot) == true && 
+            @board_comp.cells[@user_shot].fired_upon? == true
             puts "You've already shot that coordinate, try again:"
             player_shot
-        else
+        else @board_comp.valid_coordinate?(@user_shot) == false
             puts 'Please enter a valid coordinate:'
             player_shot
         end
