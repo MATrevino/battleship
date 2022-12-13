@@ -24,7 +24,7 @@ class Game
             place_comp_ships
             game_start
         elsif user_input == 'Q'
-               #exits game         
+            exit        
         else
             start
         end    
@@ -47,38 +47,45 @@ class Game
     end
 
     def game_start
-            puts 'I have laid out my ships on the grid.'
-            puts 'You now need to lay out your two ships.'
-            puts 'The Cruiser is three units long and the Submarine is two units long.'
-            puts '  1 2 3 4'
-            puts 'A . . . .'
-            puts 'B . . . .'
-            puts 'C . . . .'
-            puts 'D . . . .'
-            puts 'Enter the squares for the Cruiser (3 spaces):'
-            puts '(be sure to add a comma between each coordinate square)'
+        puts 'I have laid out my ships on the grid.'
+        puts 'You now need to lay out your two ships.'
+        puts 'The Cruiser is three units long and the Submarine is two units long.'
+        puts '  1 2 3 4'
+        puts 'A . . . .'
+        puts 'B . . . .'
+        puts 'C . . . .'
+        puts 'D . . . .'
+        puts 'Enter the squares for the Cruiser (3 spaces):'
+        puts '(be sure to add a comma between each coordinate square)'
 
-            user_input = gets.chomp.upcase.split(", ")
-            if @board_player.valid_placement?(@player_cruiser, user_input) == true
-                @board_player.place(@player_cruiser, user_input)
-            else @board_player.valid_placement?(@player_cruiser, user_input) == false
-                puts 'Those are invalid coordinates. Please try again:'
-                user_input = gets.chomp.upcase.split(", ")
-            end
-
-            puts "Enter the squares for the Submarine (2 spaces):"
-            user_input = gets.chomp.upcase.split(", ")
-            if @board_player.valid_placement?(@player_submarine, user_input) == true
-                @board_player.place(@player_submarine, user_input)
-               puts board_player.render(true)
-            else @board_player.valid_placement?(@player_submarine, user_input) == false
-                puts 'Those are invalid coordinates. Please try again:'
-                user_input = gets.chomp.upcase.split(", ")
-            end
-                puts "GET READY TO PLAAAAAAY!!!!"         
-                turn
+        player_place_cruiser
     end
-            
+
+    def player_place_cruiser
+
+        user_input = gets.chomp.upcase.split(", ")
+        if @board_player.valid_placement?(@player_cruiser, user_input) == true
+            @board_player.place(@player_cruiser, user_input)
+        else @board_player.valid_placement?(@player_cruiser, user_input) == false
+            puts 'Those are invalid coordinates. Please try again:'
+            player_place_cruiser
+        end
+        player_place_submarine
+    end
+
+    def player_place_submarine
+        puts "Enter the squares for the Submarine (2 spaces):"
+        user_input = gets.chomp.upcase.split(", ")
+        if @board_player.valid_placement?(@player_submarine, user_input) == true
+            @board_player.place(@player_submarine, user_input)
+           puts board_player.render(true)
+        else @board_player.valid_placement?(@player_submarine, user_input) == false
+            puts 'Those are invalid coordinates. Please try again:'
+            player_place_submarine
+        end
+        puts "GET READY TO PLAAAAAAY!!!!"         
+        turn
+    end     
 
     def turn
         until @player_cruiser.sunk? && @player_submarine.sunk? || @comp_cruiser.sunk? && @comp_submarine.sunk?
@@ -86,18 +93,27 @@ class Game
             puts @board_comp.render
             puts '=============PLAYER BOARD============='
             puts @board_player.render(true)
-            puts "Enter coordinate for your shot"
-            
-            @user_shot = gets.chomp.upcase
-            if @board_comp.valid_coordinate?(@user_shot) == true
-            @board_comp.cells[@user_shot].fire_upon
-            else
-                puts 'Please enter a valid coordinate:'
-                @user_shot = gets.chomp.upcase
-            end
-            comp_fire
-            results_comp(@coord_shot)
+            puts "Enter coordinate for your shot:"
+            player_shot
         end
+    end
+    
+    def player_shot
+        @user_shot = gets.chomp.upcase
+        if @board_comp.valid_coordinate?(@user_shot) == true && 
+            @board_comp.cells[@user_shot].fired_upon? == false
+            @board_comp.cells[@user_shot].fire_upon
+        elsif @board_comp.cells[@user_shot].fired_upon? == true
+            puts "You've already shot that coordinate, try again:"
+            player_shot
+        else
+            puts 'Please enter a valid coordinate:'
+            player_shot
+        end
+
+        comp_fire
+        results_comp(@coord_shot)
+
         puts '=============COMPUTER BOARD============='
         puts @board_comp.render
         puts '=============PLAYER BOARD============='
