@@ -24,7 +24,6 @@ class Board
             "D3" => Cell.new("D3"),
             "D4" => Cell.new("D4")
             }
-    
     end
 
     def valid_coordinate?(a_cell)
@@ -50,7 +49,6 @@ class Board
             if valid_placement?(ship_type, array_coor)
             array_coor.each do |cell|
             @cells[cell].place_ship(ship_type)
-            # require 'pry'; binding.pry
             end
         end
     end
@@ -70,14 +68,7 @@ class Board
         else
             starter_board = @cells.each_value.map {|cell| cell.render}
             split_board = starter_board.each_slice(4).to_a
-            # require 'pry';binding.pry
             rendered_board = "  1 2 3 4 \nA #{split_board[0].concat.join(" ")} \nB #{split_board[1].concat.join(" ")} \nC #{split_board[2].concat.join(" ")} \nD #{split_board[3].concat.join(" ")} \n"
         end
     end
-    
-
-
-    # def rendered_board(show)
-    #     @cells.each_value.map {|cell| cell.render(show)}
-    # end
 end
