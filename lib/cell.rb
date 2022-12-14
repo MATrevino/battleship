@@ -12,7 +12,6 @@ class Cell
       @ship
     end
 
-
     def empty?
         if @ship == nil
             true
@@ -59,6 +58,4 @@ class Cell
             end
         end
     end
-
-
 end

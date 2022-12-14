@@ -129,7 +129,6 @@ class Game
         start
     end
 
-
     def comp_fire
         @coord_shot = @board_player.cells.keys.sample
         until @board_player.cells[@coord_shot].fired_upon? == false
@@ -150,7 +149,6 @@ class Game
         turn       
     end
 
-
     def results_comp(coord_shot)
         if @board_player.cells[@coord_shot].render == "M"
             puts "My shot on #{@coord_shot} was a miss."
@@ -160,6 +158,5 @@ class Game
             puts "My shot on #{@coord_shot} sunk your ship!"
         end
         results_player(@user_shot)
-    end
-    
+    end  
 end
